@@ -1,11 +1,9 @@
-# 和芯星通um482 GNSS网络RTK接收机ROS驱动
-The ros driver of UM482 for unicorecomm um482.
-## Prerequest and Installation
-## Interface
-### protocols listening to 
-gpgga/gptra/besyxyz protocol from serial port
-### msgs publishing
-`sensor_msgs::navSatFix` 
-`nmea_msgs::gpgga` 
-`nav_msgs::Odometry` 
+# Publish and Subscribe in one node
+
+## Statement
+this tool would solve the problem that transfer(and  a little modification) the msg from A to B in one node.
+For example, the data from kitti.bag is no seq value, so to use this one to copy A to B, and publish B,the seq would be generated.
+### msgs publishing and subscribing
+`sensor_msgs::Imu`
+
 ## Usages
