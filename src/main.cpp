@@ -33,8 +33,8 @@ public:
 	void Imucallback(const sensor_msgs::Imu& msg)
 	{
 		sensor_msgs::Imu output_msg;
-
-		output_msg.header.stamp = msg.header.stamp ;
+		// output_msg.header.seq = count;
+		output_msg.header.stamp = ros::Time::now();
 		output_msg.header.frame_id = "imu";
 		output_msg.orientation.x = msg.orientation.x;
 		output_msg.orientation.y = msg.orientation.y;
