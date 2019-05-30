@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(PublishAndSubscribe)
+project(publishandsubscribe)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -34,12 +34,12 @@ include_directories(
 )
 
 
-add_executable( PAS_node
+add_executable( transtopic_node
   src/main.cpp
 ) 
 
 #add_dependencies(gnssrtk_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}) 
-target_link_libraries( PAS_node 
+target_link_libraries( transtopic_node 
   ${catkin_LIBRARIES}
   udev
 )
