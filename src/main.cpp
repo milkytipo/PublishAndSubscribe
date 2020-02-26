@@ -19,22 +19,26 @@ class PublishAndSubscribe
 {
 
 private:
-	ros::NodeHandle nh; 
+	ros::NodeHandle nh,nh2; 
 	ros::Subscriber sub_n;
 	ros::Publisher pub_n;
+    ros::Subscriber sub_n_gnss;
+	ros::Publisher pub_n_gnss;
 
 public:
 	PublishAndSubscribe()
 	{
 		pub_n = nh.advertise<sensor_msgs::Imu>("/imu",1);
 		sub_n = nh.subscribe("/kitti/oxts/imu",1,&PublishAndSubscribe::Imucallback,this);
+		pub_n_gnss = nh2.advertise<sensor_msgs::NavSatFix>("/gps/fix",1);
+		sub_n_gnss = nh2.subscribe("/kitti/oxts/gps/fix",1,&PublishAndSubscribe::GPScallback,this);
 	}
 
 	void Imucallback(const sensor_msgs::Imu& msg)
 	{
 		sensor_msgs::Imu output_msg;
 		// output_msg.header.seq = count;
-		output_msg.header.stamp = ros::Time::now();
+		output_msg.header.stamp = msg.header.stamp;
 		output_msg.header.frame_id = "imu";
 		output_msg.orientation.x = msg.orientation.x;
 		output_msg.orientation.y = msg.orientation.y;
@@ -50,6 +54,21 @@ public:
 		output_msg.linear_acceleration.z = msg.linear_acceleration.z;
 		output_msg.linear_acceleration_covariance = msg.linear_acceleration_covariance;
 		pub_n.publish(output_msg);
+	}
+
+	void GPScallback(const sensor_msgs::NavSatFix& msg2)
+	{
+		sensor_msgs::NavSatFix msg_navsatfix;
+		msg_navsatfix.header.stamp = msg2.header.stamp;
+		msg_navsatfix.header.frame_id = msg2.header.frame_id;
+		msg_navsatfix.status.status = msg2.status.status;
+		msg_navsatfix.status.service = msg2.status.service;
+		msg_navsatfix.latitude = msg2.latitude;
+		msg_navsatfix.longitude = msg2.longitude;
+		msg_navsatfix.altitude = msg2.altitude;
+		msg_navsatfix.position_covariance = msg2.position_covariance;
+		msg_navsatfix.position_covariance_type = msg2.position_covariance_type;
+		pub_n_gnss.publish(msg_navsatfix);
 	}
 
 };
